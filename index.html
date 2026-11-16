@@ -51320,14 +51320,15 @@ try {
         const src = im.currentSrc || im.src || "";
         if (im.dataset.c10src === src && im.dataset.c10h == fh) return;
         if (!im.complete || !im.naturalWidth) return;
-        if (im.closest("#scene, #ngw, #c8info, #c8edges, .top, #dock, nav, .c10ph, .c10tony, .c10dc, .cpav, .phav, [class*='av'], .c10say, .shopc")) { im.dataset.c10src = src; im.dataset.c10h = fh; return; }
+        if (im.closest("#splash, #bfIntro, #scene, #ngw, #c8info, #c8edges, .top, #dock, nav, .c10ph, .c10tony, .c10dc, .cpav, .phav, [class*='av'], .c10say, .shopc")) { im.dataset.c10src = src; im.dataset.c10h = fh; return; }
         const cs = getComputedStyle(im), r = im.getBoundingClientRect();
         const round = parseFloat(cs.borderTopLeftRadius) >= Math.min(r.width, r.height) * 0.3;
         const tall = im.naturalHeight / im.naturalWidth >= 1.3;
         const vis = r.width > 0 && r.height > 0;
         if (!vis) return; // mät när den syns
         im.dataset.c10src = src; im.dataset.c10h = fh;
-        if (!tall || round || r.height < 90) return; // bara riktiga helkroppsbilder, inte små ikoner och chips
+        // bara smala, stående figurer: inte affischer, bakgrunder eller startsidan
+        if (!tall || round || r.height < 90 || r.width > innerWidth * 0.6 || window.__splashOn) return; // bara riktiga helkroppsbilder, inte små ikoner och chips
         im.classList.add("c10fit");
       });
       // butikens förhandsbild (SVG): Tina skalas till 100 %
